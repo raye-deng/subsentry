@@ -1,36 +1,74 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Subsentry - B2B Subscription Consolidation Tool
 
-## Getting Started
+Stop paying for 5 different Notion accounts across teams. Automatically identify duplicate subscriptions, consolidate plans, and save thousands instantly.
 
-First, run the development server:
+## 🚀 Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
+# Build for production
+npm run build
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📊 MVP Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ✅ Implemented
+- **Landing Page**: Product introduction with value proposition and social proof
+- **Dashboard**: View all subscriptions with analytics
+- **Duplicate Detection**: Identify overlapping tools across teams
+- **Savings Calculator**: Show potential savings from consolidation
+- **Interactive UI**: Cancel and consolidate subscriptions (mock)
+- **Responsive Design**: Works on all devices
 
-## Learn More
+### 🔜 Planned (Post-MVP)
+- Plaid API integration for real bank data
+- Usage tracking via SSO integrations
+- Automatic consolidation recommendations
+- Team collaboration features
+- Alert notifications for renewals
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Target Users
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Companies with 10-100 employees
+- Multiple teams with independent software purchasing
+- No dedicated procurement/IT team
+- Growing fast and accumulating tool debt
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💡 Use Cases
 
-## Deploy on Vercel
+1. **Duplicate Subscriptions**: 5 Notion accounts paying $900/mo → 1 enterprise plan $500/mo
+2. **Zombie Subscriptions**: Tools from ex-employees still billing
+3. **Forgotten Trials**: Free trials that auto-converted
+4. **Unused Tools**: Paying for software nobody uses
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠 Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Charts**: Recharts
+- **Bank API**: Plaid (planned)
+
+## 📦 Deployment
+
+### Vercel (Recommended)
+
+1. Push to GitHub
+2. Import to Vercel
+3. Deploy with one click
+
+```bash
+vercel --prod
+```
+
+## 📄 License
+
+MIT
