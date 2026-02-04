@@ -89,21 +89,21 @@ export default function Dashboard() {
 
   const totalMonthly = subscriptions.reduce((sum, sub) => sum + sub.price, 0);
   const duplicateSubs = subscriptions.filter(sub => sub.isDuplicate);
-  const duplicateSavings = duplicateSubs.reduce((sum, sub) => sum + (sub.price * (sub.duplicateCount - 1)), 0);
+  const duplicateSavings = duplicateSubs.reduce((sum, sub) => sum + (sub.price * ((sub.duplicateCount || 1) - 1)), 0);
   const zombieCount = 1; // Mock: would be calculated from usage data
 
   const handleCancel = (id: number) => {
-    setSubscriptions(subs.filter(sub => sub.id !== id));
+    setSubscriptions(subscriptions.filter(sub => sub.id !== id));
   };
 
   const handleConsolidate = (id: number) => {
     const sub = subscriptions.find(s => s.id === id);
     if (sub && sub.isDuplicate) {
-      const newCount = Math.max(1, sub.duplicateCount - 1);
+      const newCount = Math.max(1, (sub.duplicateCount || 1) - 1);
       if (newCount === 1) {
-        setSubscriptions(subs.map(s => s.id === id ? { ...s, isDuplicate: false } : s));
+        setSubscriptions(subscriptions.map(s => s.id === id ? { ...s, isDuplicate: false } : s));
       } else {
-        setSubscriptions(subs.map(s => s.id === id ? { ...s, duplicateCount: newCount } : s));
+        setSubscriptions(subscriptions.map(s => s.id === id ? { ...s, duplicateCount: newCount } : s));
       }
     }
   };
@@ -307,7 +307,7 @@ export default function Dashboard() {
                   <div className="flex items-center justify-between mb-2">
                     <span className="font-semibold text-gray-900">{sub.name}</span>
                     <span className="text-green-600 font-bold">
-                      Save ${(sub.price * (sub.duplicateCount - 1)).toFixed(2)}/mo
+                      Save ${(sub.price * ((sub.duplicateCount || 1) - 1)).toFixed(2)}/mo
                     </span>
                   </div>
                   <p className="text-sm text-gray-600">
