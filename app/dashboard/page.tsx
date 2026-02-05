@@ -12,8 +12,10 @@ import {
   Calendar,
   Users,
   Zap,
-  ArrowRight,
   X,
+  Star,
+  Sparkles,
+  Target,
 } from 'lucide-react';
 
 // Mock data for MVP
@@ -90,7 +92,7 @@ export default function Dashboard() {
   const totalMonthly = subscriptions.reduce((sum, sub) => sum + sub.price, 0);
   const duplicateSubs = subscriptions.filter(sub => sub.isDuplicate);
   const duplicateSavings = duplicateSubs.reduce((sum, sub) => sum + (sub.price * ((sub.duplicateCount || 1) - 1)), 0);
-  const zombieCount = 1; // Mock: would be calculated from usage data
+  const zombieCount = 1;
 
   const handleCancel = (id: number) => {
     setSubscriptions(subscriptions.filter(sub => sub.id !== id));
@@ -109,20 +111,23 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
       {/* Navigation */}
-      <nav className="border-b bg-white">
+      <nav className="border-b border-white/10 bg-white/5 backdrop-blur-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center">
               <CheckCircle className="w-6 h-6 text-white" />
             </div>
-            <span className="text-xl font-bold text-gray-900">Subsentry</span>
+            <div>
+              <span className="text-xl font-bold text-white">Subsentry</span>
+              <p className="text-xs text-blue-300">Dashboard</p>
+            </div>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/" className="text-gray-600 hover:text-gray-900 flex items-center gap-2">
+            <Link href="/" className="text-gray-300 hover:text-white flex items-center gap-2 transition-colors">
               <ArrowLeft className="w-4 h-4" />
-              Back
+              Back to Home
             </Link>
           </div>
         </div>
@@ -131,15 +136,20 @@ export default function Dashboard() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Alert Banner */}
         {showAlert && (
-          <div className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-xl p-6 mb-8 flex items-start gap-4">
-            <AlertTriangle className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+          <div className="bg-gradient-to-r from-red-500/20 to-orange-500/20 border border-red-500/30 rounded-2xl p-6 mb-8 flex items-start gap-4 backdrop-blur-sm">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+              <AlertTriangle className="w-6 h-6 text-white" />
+            </div>
             <div className="flex-1">
-              <h3 className="font-semibold text-gray-900 mb-1">Duplicate Subscriptions Detected!</h3>
-              <p className="text-gray-600">
-                We found {duplicateSubs.length} tools with multiple subscriptions. Consolidating them could save you <strong>${duplicateSavings.toFixed(2)}/month</strong>.
+              <h3 className="font-bold text-white text-lg mb-2 flex items-center gap-2">
+                <Sparkles className="w-5 h-5" />
+                Duplicate Subscriptions Detected!
+              </h3>
+              <p className="text-gray-300">
+                We found <strong className="text-white">{duplicateSubs.length}</strong> tools with multiple subscriptions. Consolidating them could save you <strong className="text-white font-bold text-lg">${duplicateSavings.toFixed(2)}/month</strong>.
               </p>
             </div>
-            <button onClick={() => setShowAlert(false)} className="text-gray-400 hover:text-gray-600">
+            <button onClick={() => setShowAlert(false)} className="text-gray-400 hover:text-white transition-colors">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -147,134 +157,151 @@ export default function Dashboard() {
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white rounded-xl p-6 border shadow-sm">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <DollarSign className="w-8 h-8 text-blue-600" />
-              <span className="text-sm text-gray-500">Monthly</span>
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center">
+                <DollarSign className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xs text-gray-400">Monthly</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">${totalMonthly.toFixed(2)}</div>
-            <div className="text-sm text-gray-500 mt-1">Total spending</div>
+            <div className="text-3xl font-bold text-white mb-1">${totalMonthly.toFixed(2)}</div>
+            <div className="text-sm text-gray-400">Total spending</div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border shadow-sm">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <AlertTriangle className="w-8 h-8 text-orange-500" />
-              <span className="text-sm text-gray-500">Duplicates</span>
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                <AlertTriangle className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xs text-gray-400">Duplicates</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{duplicateSubs.length}</div>
-            <div className="text-sm text-red-600 mt-1">${duplicateSavings.toFixed(2)}/mo savings</div>
+            <div className="text-3xl font-bold text-white mb-1">{duplicateSubs.length}</div>
+            <div className="text-sm text-red-400 font-semibold">${duplicateSavings.toFixed(2)}/mo savings</div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border shadow-sm">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <Zap className="w-8 h-8 text-yellow-500" />
-              <span className="text-sm text-gray-500">Zombie</span>
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center">
+                <Zap className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xs text-gray-400">Zombie</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">{zombieCount}</div>
-            <div className="text-sm text-gray-500 mt-1">Unused subs</div>
+            <div className="text-3xl font-bold text-white mb-1">{zombieCount}</div>
+            <div className="text-sm text-gray-400">Unused subs</div>
           </div>
 
-          <div className="bg-white rounded-xl p-6 border shadow-sm">
+          <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
             <div className="flex items-center justify-between mb-4">
-              <TrendingDown className="w-8 h-8 text-green-600" />
-              <span className="text-sm text-gray-500">Potential</span>
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                <TrendingDown className="w-6 h-6 text-white" />
+              </div>
+              <span className="text-xs text-gray-400">Potential</span>
             </div>
-            <div className="text-3xl font-bold text-gray-900">${(duplicateSavings + 20).toFixed(2)}</div>
-            <div className="text-sm text-green-600 mt-1">/month save</div>
+            <div className="text-3xl font-bold text-white mb-1">${(duplicateSavings + 20).toFixed(2)}</div>
+            <div className="text-sm text-green-400 font-semibold">/month save</div>
           </div>
         </div>
 
         {/* Connect Bank Banner */}
-        <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-6 mb-8 text-white flex items-center justify-between">
-          <div>
-            <h3 className="font-semibold text-lg mb-1">Connect Your Bank Account</h3>
-            <p className="opacity-90">Automatically sync all your subscriptions and get real-time insights</p>
+        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-8 mb-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl shadow-blue-500/30">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+              <CreditCard className="w-7 h-7 text-white" />
+            </div>
+            <div>
+              <h3 className="font-bold text-xl mb-1">Connect Your Bank Account</h3>
+              <p className="opacity-90">Automatically sync all your subscriptions and get real-time insights</p>
+            </div>
           </div>
-          <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition flex items-center gap-2">
+          <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 flex items-center gap-2 whitespace-nowrap shadow-lg">
             <CreditCard className="w-5 h-5" />
             Connect with Plaid
           </button>
         </div>
 
         {/* Subscriptions Table */}
-        <div className="bg-white rounded-xl border shadow-sm">
-          <div className="p-6 border-b">
-            <h2 className="text-xl font-bold text-gray-900">Your Subscriptions</h2>
-            <p className="text-gray-600 mt-1">{subscriptions.length} active subscriptions</p>
+        <div className="bg-white/5 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden">
+          <div className="p-6 border-b border-white/10">
+            <div className="flex items-center justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-white">Your Subscriptions</h2>
+                <p className="text-gray-400 mt-1">{subscriptions.length} active subscriptions</p>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-400">
+                <Target className="w-4 h-4" />
+                Sorted by spending
+              </div>
+            </div>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-white/5 border-b border-white/10">
                 <tr>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900">Service</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900">Plan</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900">Price</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900">Users</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-900">Status</th>
-                  <th className="text-right px-6 py-4 text-sm font-semibold text-gray-900">Actions</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-300">Service</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-300">Plan</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-300">Price</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-300">Users</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-gray-300">Status</th>
+                  <th className="text-right px-6 py-4 text-sm font-semibold text-gray-300">Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {subscriptions.map((sub) => (
-                  <tr key={sub.id} className="border-b hover:bg-gray-50">
+                  <tr key={sub.id} className="border-b border-white/5 hover:bg-white/5 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center font-bold text-gray-700">
+                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-white text-lg">
                           {sub.name[0]}
                         </div>
                         <div>
-                          <div className="font-semibold text-gray-900">{sub.name}</div>
-                          <div className="text-sm text-gray-500">{sub.category}</div>
+                          <div className="font-bold text-white text-lg">{sub.name}</div>
+                          <div className="text-gray-400 text-sm">{sub.category}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-gray-900">{sub.plan}</div>
-                      <div className="text-sm text-gray-500">{sub.billing}</div>
+                      <div className="text-white font-medium">{sub.plan}</div>
+                      <div className="text-gray-400 text-sm">{sub.billing}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="font-semibold text-gray-900">${sub.price.toFixed(2)}</div>
+                      <div className="font-bold text-white text-lg">${sub.price.toFixed(2)}</div>
                       {sub.isDuplicate && (
-                        <div className="text-sm text-red-600">
+                        <div className="flex items-center gap-1 text-red-400 text-sm font-semibold mt-1">
+                          <AlertTriangle className="w-3 h-3" />
                           {sub.duplicateCount}x duplicate
                         </div>
                       )}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-2 text-gray-900">
-                        <Users className="w-4 h-4" />
-                        {sub.users}
+                      <div className="flex items-center gap-2 text-white">
+                        <Users className="w-4 h-4 text-gray-400" />
+                        <span className="font-medium">{sub.users}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      {sub.isDuplicate ? (
-                        <div className="inline-flex items-center gap-1.5 bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-medium">
-                          <AlertTriangle className="w-4 h-4" />
-                          Duplicate
-                        </div>
-                      ) : (
-                        <div className="inline-flex items-center gap-1.5 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
-                          <CheckCircle className="w-4 h-4" />
-                          Active
-                        </div>
-                      )}
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-400" />
+                        <span className="text-green-400 text-sm font-medium">Active</span>
+                      </div>
+                      <div className="text-gray-400 text-xs mt-1">{sub.lastUsed}</div>
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-2">
                         {sub.isDuplicate && (
                           <button
                             onClick={() => handleConsolidate(sub.id)}
-                            className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1"
                           >
-                            <Zap className="w-4 h-4" />
+                            <CheckCircle className="w-4 h-4" />
                             Consolidate
                           </button>
                         )}
                         <button
                           onClick={() => handleCancel(sub.id)}
-                          className="text-red-600 hover:text-red-700 text-sm font-medium"
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-1"
                         >
+                          <X className="w-4 h-4" />
                           Cancel
                         </button>
                       </div>
@@ -284,41 +311,62 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
-
-          {subscriptions.length === 0 && (
-            <div className="p-12 text-center text-gray-500">
-              <CreditCard className="w-12 h-12 mx-auto mb-4 opacity-50" />
-              <p className="text-lg">No subscriptions found</p>
-              <p className="mt-2">Connect your bank account to get started</p>
-            </div>
-          )}
         </div>
 
-        {/* Savings Suggestions */}
-        {duplicateSavings > 0 && (
-          <div className="mt-8 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <TrendingDown className="w-6 h-6 text-green-600" />
-              <h3 className="text-lg font-bold text-gray-900">Quick Win: Consolidate Your Duplicates</h3>
+        {/* Duplicate Details Modal */}
+        {duplicateSubs.length > 0 && (
+          <div className="mt-8 bg-gradient-to-br from-orange-500/10 to-red-500/10 rounded-2xl p-8 border border-orange-500/20 backdrop-blur-sm">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                <Target className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-white">Duplicate Subscription Details</h3>
+                <p className="text-gray-400">Review and consolidate your duplicate subscriptions</p>
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-4">
-              {duplicateSubs.slice(0, 2).map((sub) => (
-                <div key={sub.id} className="bg-white rounded-lg p-4 border">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="font-semibold text-gray-900">{sub.name}</span>
-                    <span className="text-green-600 font-bold">
-                      Save ${(sub.price * ((sub.duplicateCount || 1) - 1)).toFixed(2)}/mo
-                    </span>
+
+            <div className="space-y-4">
+              {duplicateSubs.map((sub) => (
+                <div key={sub.id} className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center font-bold text-white text-xl">
+                        {sub.name[0]}
+                      </div>
+                      <div>
+                        <div className="font-bold text-white text-xl">{sub.name}</div>
+                        <div className="text-gray-400">{sub.plan} • {sub.users} users</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <div className="text-red-400 text-sm font-semibold flex items-center gap-1">
+                          <AlertTriangle className="w-3 h-3" />
+                          {sub.duplicateCount}x duplicates
+                        </div>
+                        <div className="text-white text-lg font-bold">
+                          Save ${(sub.price * ((sub.duplicateCount || 1) - 1)).toFixed(2)}/mo
+                        </div>
+                      </div>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleConsolidate(sub.id)}
+                          className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg shadow-blue-500/30"
+                        >
+                          <CheckCircle className="w-5 h-5" />
+                          Consolidate
+                        </button>
+                        <button
+                          onClick={() => handleCancel(sub.id)}
+                          className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center gap-2 shadow-lg shadow-red-500/30"
+                        >
+                          <X className="w-5 h-5" />
+                          Cancel All
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-sm text-gray-600">
-                    {sub.duplicateCount} subscriptions detected → Consolidate to 1 team plan
-                  </p>
-                  <button
-                    onClick={() => handleConsolidate(sub.id)}
-                    className="mt-3 text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center gap-1"
-                  >
-                    View consolidation options <ArrowRight className="w-4 h-4" />
-                  </button>
                 </div>
               ))}
             </div>
